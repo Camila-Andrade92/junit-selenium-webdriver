@@ -42,9 +42,51 @@ public class GrupoMapTest {
 		assertTrue(driver.getPageSource().contains("A mensagem foi enviada com sucesso"));
 	}
 	
+	@Test
+	public void deveApresentarMsgErroDeValidacao() {
+		paginaGrupoMap.abrirSite();
+		paginaGrupoMap.escolherOpcaoOrcamento();
+		paginaGrupoMap.clicarNoBotaoEnviar();
+		
+		paginaGrupoMap.esperarTexto("Ocorreram erros de validação");
+		
+		assertTrue(driver.getPageSource().contains("Ocorreram erros de validação"));
+	}
+	
+	@Test
+	public void deveApresentarMsgErroComNomeSobrenomeNumerico() {
+		paginaGrupoMap.abrirSite();
+		paginaGrupoMap.escolherOpcaoOrcamento();
+		paginaGrupoMap.preencherCampoNome("12533");
+		paginaGrupoMap.preencherCampoSobrenome("525266");
+		paginaGrupoMap.preencherCampoEmail("teste@gmail.com");
+		paginaGrupoMap.preencherCampoTelefone("11988526654");
+		paginaGrupoMap.preencherCampoMensagem("Olá!");
+		paginaGrupoMap.clicarNoBotaoEnviar();
+		
+		paginaGrupoMap.esperarTexto("Ocorreram erros de validação");
+		assertTrue(driver.getPageSource().contains("Ocorreram erros de validação"));
+		
+	}
+	
+	@Test
+	public void deveApresentarMsgErroEmailInvalido() {
+		paginaGrupoMap.abrirSite();
+		paginaGrupoMap.escolherOpcaoOrcamento();
+		paginaGrupoMap.preencherCampoNome("Teste");
+		paginaGrupoMap.preencherCampoSobrenome("Sobrenome Teste");
+		paginaGrupoMap.preencherCampoEmail("email_invalido");
+		paginaGrupoMap.preencherCampoTelefone("11988526654");
+		paginaGrupoMap.preencherCampoMensagem("Olá!");
+		paginaGrupoMap.clicarNoBotaoEnviar();
+		
+		paginaGrupoMap.esperarTexto("Ocorreram erros de validação");
+		assertTrue(driver.getPageSource().contains("Ocorreram erros de validação"));
+	}
+	
 	@After
 	public void funcaoQueVaiExecutarDepoisdoTest() {
-		driver.close();
+		driver.quit();
 	}
 }
 
