@@ -87,6 +87,30 @@ public class CrudPage {
 		}	
 	}
 	
+	public void visualizarInformacaoCliente(String nome) {
+		List<WebElement> linhasDaTabela = driver.findElements(By.xpath("/html/body/div/div[2]/table/tbody/tr"));
+		WebElement botaoCorrespondenteAoInfo;
+		
+		for(WebElement linha : linhasDaTabela) {
+			
+			WebElement colunaNome = linha.findElement(By.xpath("./td[1]"));
+			
+			if (colunaNome.getText().equals(nome)) {
+				botaoCorrespondenteAoInfo = linha.findElement(By.xpath("./td[6]/a[1]"));
+				
+				botaoCorrespondenteAoInfo.click();
+				
+				esperarTexto("Informações do Contato");
+				WebElement botaoVoltar = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[6]/a"));
+				botaoVoltar.click();
+				
+				break;
+			
+			}
+		}
+	}
+
+	
 	public void atualizarDadosCliente(String id) {
 		List<WebElement> linhasDaTabela =  driver.findElements(By.xpath("/html/body/div/div[2]/table/tbody/tr"));
 		WebElement botaoCorrespondenteAoID;
